@@ -21,66 +21,120 @@ Primary goals:
 ```
 
 ## Features & Pipeline
-1. Data Cleaning & Descriptor Computation
-- Load BindingDB_Covid‑19.tsv
+### 1. Data Preprocessing & Feature Engineering
 
-- Drop columns with excessive missing values, invalid SMILES
+#### 1.1 Data Cleaning
+- **Input**: `BindingDB_Covid-19.tsv` containing COVID-19 related molecular data
+- **Processing Steps**:
+  - Remove columns with >50% missing values
+  - Validate and filter invalid SMILES strings
+  - Deduplicate entries based on molecular structure
+  - Retain core features: SMILES, Ligand Name, Target, Sequence
 
-- Deduplicate and keep only SMILES + Ligand Name + Target + sequence
+#### 1.2 Molecular Descriptor Calculation
+Using RDKit, we compute six key molecular descriptors:
+- **MolWt**: Molecular weight
+- **LogP**: Lipophilicity coefficient
+- **NumHDonors**: Hydrogen bond donor count
+- **NumHAcceptors**: Hydrogen bond acceptor count
+- **TPSA**: Topological Polar Surface Area
+- **NumRotatableBonds**: Molecular flexibility metric
 
-- Compute RDKit descriptors: MolWt, LogP, NumHDonors, NumHAcceptors, TPSA, NumRotatableBonds
+#### 1.3 Target Variable Generation
+- Binary classification based on **Lipinski's Rule of Five**
+- Label 1: Drug-like (passes all criteria)
+- Label 0: Non-drug-like (fails one or more criteria)
 
-- Compute Lipinski pass/fail (binary label)
+### 2. Data Quality Enhancement
 
-2. Outlier Removal & Data Balancing
-- Detect and drop outliers via IQR per descriptor
+#### 2.1 Outlier Detection & Removal
+- **Method**: Interquartile Range (IQR) analysis per descriptor
+- **Threshold**: Remove points beyond Q1 - 1.5×IQR or Q3 + 1.5×IQR
+- **Impact**: Ensures robust model training by eliminating extreme values
 
-- SMOTE used to get a class-balanced dataset (~10k label‑0 and ~10k label‑1)
+#### 2.2 Class Balancing
+- **Challenge**: Imbalanced dataset (drug-like molecules underrepresented)
+- **Solution**: SMOTE (Synthetic Minority Over-sampling Technique)
+- **Result**: Balanced dataset with ~10,000 samples per class
 
-3. Clustering (Unsupervised Analysis):
+### 3. Unsupervised Clustering Analysis
 
-- K‑Means and Gaussian Mixture Models (GMM) via silhouette, Calinski‑Harabasz, Davies‑Bouldin metrics with best k=2 in both
+#### 3.1 Clustering Methods & Results
 
-- DBSCAN parameter sweep gave the best silhouette of approx. 0.436 with eps≈0.37, min_samples=50, yielding ~40 clusters
+| Algorithm | Optimal Parameters | Clusters | Best Metric Score |
+|-----------|-------------------|----------|-------------------|
+| **K-Means** | k=2 | 2 | Silhouette: 0.33 |
+| **GMM** | n_components=2 | 2 | BIC-optimized |
+| **DBSCAN** | eps=0.37, min_samples=50 | ~40 | Silhouette: 0.436 |
+| **Hierarchical** | Complete linkage, 70% cut | Variable | Interpretable sizes |
 
-- Hierarchical (complete linkage), cut at 70% of max distance of clusters with interpretable size and Lipinski pass rates
+#### 3.2 Clustering Evaluation
+- **Metrics Used**:
+  - Silhouette Score (cohesion vs separation)
+  - Calinski-Harabasz Index (inter-cluster dispersion)
+  - Davies-Bouldin Score (average similarity)
+- **Visualization**: PCA and t-SNE projections for 2D/3D cluster analysis
+- **Feature Analysis**: Fisher ratio heatmap to identify discriminative descriptors
 
-- Visualize with PCA and t‑SNE projections
+### 4. Graph Neural Network Pipeline
 
-- Evaluate cluster quality and feature importance (Fisher ratio heatmap)
+#### 4.1 Molecular Graph Construction
+```python
+# SMILES → PyTorch Geometric Data
+Node Features (5-dimensional):
+- Atomic number (one-hot encoded)
+- Degree (number of bonds)
+- Formal charge
+- Hybridization state (sp, sp2, sp3)
+- Is aromatic (boolean)
 
-4. Graph Representation & GNN Preparation
-- Convert each SMILES into PyTorch Geometric Data objects:
+Edge Features:
+- Bond connectivity (undirected graph)
+- Edge index representation for PyG
+```
 
-- Node features: atomic number, degree, formal charge, hybridization, aromaticity
+#### 4.2 Data Splitting Strategy
+- **Training Set**: 80% (16,000 molecules)
+- **Validation Set**: 10% (2,000 molecules)
+- **Test Set**: 10% (2,000 molecules)
+- **Stratified Split**: Maintains class balance across all sets
 
-- Edge index: undirected bonds
+### 5. GNN Model Architectures
 
-- Build train/validation/test splits (80/10/10)
+#### 5.1 Model Specifications
 
-- Create DataLoader batches
+| Model | Architecture Details | Key Features |
+|-------|---------------------|--------------|
+| **GCN** | 3 layers, 64 hidden units | Spectral convolutions, baseline model |
+| **GCN-Weighted** | Same as GCN + class weights | Addresses class imbalance |
+| **GAT** | 2 attention heads, 3 layers | Self-attention mechanism |
+| **GIN** | 3 layers, MLP aggregation | Maximum expressive power |
 
-5. GNN Models
-- GCN (vanilla)
+#### 5.2 Training Configuration
+```yaml
+Optimizer: Adam
+Learning Rate: 0.001
+Batch Size: 32
+Epochs: 20
+Loss Function: Binary Cross-Entropy
+Early Stopping: Patience=5 on validation F1
+```
 
-- GCN_Weighted with class imbalance weighting
+### 6. Performance Evaluation
 
-- GAT (graph attention) with 2 attention heads
+#### 6.1 Model Comparison
 
-- GIN (graph isomorphism network) for high expressive power
+| Model | Accuracy | Precision | Recall | F1-Score |
+|-------|----------|-----------|--------|----------|
+| **GCN** | 63.4% | 0.65 | 1.00 | 0.92 |
+| **GCN-Weighted** | 64.9% | 0.66 | 0.90 | 0.68 |
+| **GAT** | 64.2% | 0.69 | 0.65 | 0.91 |
+| **GIN** | **65.5%** | **0.67** | **0.87** | **0.92** |
 
-- Training: 20 epochs each, batch size = 32, optimizer = Adam, learning rate = 0.001
-
-6. Evaluation & Results
-- Validation metrics monitored: Accuracy, Precision, Recall, F1
-
-- GCN (vanilla): high recall (~1.0) but lower precision (~0.63), F1 ~0.76
-
-- Weighted GCN: better precision (~0.71) but recall drop, F1 ~0.67–0.70
-
-- GAT model: improved balance, F1 ~0.76 overall
-
-- GIN model: best performance with sharper convergence, accuracy up to ~75%, F1 ~0.80–0.82
-
-- GIN outperformed others due to expressive neighborhood learning
+#### 6.2 Key Insights
+- **GCN**: Achieves perfect recall but suffers from low precision
+- **Weighted GCN**: Class weighting improves precision at the cost of recall
+- **GAT**: Attention mechanism provides balanced performance
+- **GIN**: Superior expressiveness captures complex molecular patterns most effectively
+ive neighborhood learning
 
