@@ -83,7 +83,7 @@ Primary goals:
 
 - GAT model: improved balance, F1 ~0.76 overall
 
-- GIN model: best performance—sharper convergence, accuracy up to ~75%, F1 ~0.80–0.82
+- GIN model: best performance with sharper convergence, accuracy up to ~75%, F1 ~0.80–0.82
 
 - GIN outperformed others due to expressive neighborhood learning
 
