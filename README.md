@@ -74,7 +74,7 @@ Using RDKit, we compute six key molecular descriptors:
 | **K-Means** | k=2 | 2 | Silhouette: 0.33 |
 | **GMM** | n_components=2 | 2 | BIC-optimized |
 | **DBSCAN** | eps=0.37, min_samples=50 | ~40 | Silhouette: 0.436 |
-| **Hierarchical** | Complete linkage, 70% cut | Variable | Interpretable sizes |
+| **Hierarchical** | Complete linkage, 70% cut | 5 | Interpretable sizes |
 
 #### 3.2 Clustering Evaluation
 - **Metrics Used**:
