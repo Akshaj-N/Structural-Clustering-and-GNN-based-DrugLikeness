@@ -113,7 +113,7 @@ Edge Features:
 
 | Model | Architecture Details | Key Features |
 |-------|---------------------|--------------|
-| **GCN** | 3 layers, 64 hidden units | Spectral convolutions, baseline model |
+| **GCN** | 2 layers, 64 hidden units | Spectral convolutions, baseline model |
 | **GCN-Weighted** | Same as GCN + class weights | Addresses class imbalance |
 | **GAT** | 2 attention heads, 3 layers | Self-attention mechanism |
 | **GIN** | 3 layers, MLP aggregation | Maximum expressive power |
@@ -125,7 +125,6 @@ Learning Rate: 0.001
 Batch Size: 32
 Epochs: 20
 Loss Function: Binary Cross-Entropy
-Early Stopping: Patience=5 on validation F1
 ```
 
 ### 6. Performance Evaluation
