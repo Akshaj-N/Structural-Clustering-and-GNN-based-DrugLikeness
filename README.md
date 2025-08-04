@@ -85,5 +85,5 @@ Primary goals:
 
 - GIN model: best performance—sharper convergence, accuracy up to ~75%, F1 ~0.80–0.82
 
-- GIN outperformed others thanks to expressive neighborhood learning
+- GIN outperformed others due to expressive neighborhood learning
 
