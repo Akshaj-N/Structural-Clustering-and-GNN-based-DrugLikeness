@@ -5,7 +5,13 @@ This project builds a machine learning pipeline that processes a BindingDB COVID
 Primary goals:
 1. Explore molecular clusters in descriptor space.  
 2. Evaluate which clustering method best separates drug‑like compounds.  
-3. Build GNN classifiers to predict Lipinski drug‑likeness, comparing models for optimal performance.  
+3. Build GNN classifiers to predict Lipinski drug‑likeness, comparing models for optimal performance.
+
+## Datasets
+
+### BindingDB COVID-19 Dataset
+- **Description**: COVID-19 related binding data from BindingDB
+- **Link**: [https://www.bindingdb.org/rwd/bind/Covid19](https://www.bindingdb.org/rwd/bind/Covid19)
 
 ## File structure
 ```
