@@ -126,13 +126,13 @@ Early Stopping: Patience=5 on validation F1
 
 | Model | Accuracy | Precision | Recall | F1-Score |
 |-------|----------|-----------|--------|----------|
-| **GCN** | 63.4% | 0.65 | 1.00 | 0.92 |
-| **GCN-Weighted** | 64.9% | 0.66 | 0.90 | 0.68 |
-| **GAT** | 64.2% | 0.69 | 0.65 | 0.91 |
-| **GIN** | **65.5%** | **0.67** | **0.87** | **0.92** |
+| **GCN** | 63.4% | 0.65 | 0.92 | 0.75 |
+| **GCN-Weighted** | 64.9% | 0.66 | 0.90 | 0.76 |
+| **GAT** | 64.2% | 0.69 | 0.91 | 0.76 |
+| **GIN** | **65.5%** | **0.67** | **0.92** | **0.78** |
 
 #### 6.2 Key Insights
-- **GCN**: Achieves perfect recall but suffers from low precision
+- **GCN**: Achieves high recall but suffers from low precision
 - **Weighted GCN**: Class weighting improves precision at the cost of recall
 - **GAT**: Attention mechanism provides balanced performance
 - **GIN**: Superior expressiveness captures complex molecular patterns most effectively
