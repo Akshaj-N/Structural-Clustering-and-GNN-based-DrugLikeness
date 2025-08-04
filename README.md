@@ -1,6 +1,6 @@
 # ⚛️ Structural Clustering and GNN‑based Drug‑Likeness Prediction
 ## Overview
-This project builds a machine learning pipeline that processes a BindingDB COVID‑19 dataset of molecules and targets, computes molecular descriptors, performs unsupervised clustering (K‑Means, DBSCAN, hierarchical, GMM) and then trains Graph Neural Networks (GNNs), including GCN, GAT and GIN, to predict whether molecules satisfy Lipinski's Rule of Five.
+This project builds a machine learning pipeline that processes a BindingDB COVID‑19 dataset of molecules and targets, computes molecular descriptors, performs unsupervised clustering (K‑Means, DBSCAN, hierarchical, GMM) and then trains Graph Neural Networks (GNNs), including GCN, GAT and GIN to predict whether molecules satisfy Lipinski's Rule of Five.
 
 Primary goals:
 
