@@ -1,6 +1,6 @@
-# Structural Clustering and GNN‑based Drug‑Likeness Prediction
+# ⚛️ Structural Clustering and GNN‑based Drug‑Likeness Prediction
 ## Overview
-This project builds a machine learning pipeline that processes a BindingDB COVID‑19 dataset of molecules and targets, computes molecular descriptors, performs unsupervised clustering (K‑Means, DBSCAN, hierarchical, GMM), and then trains Graph Neural Networks (GNNs) — including GCN, GAT, and GIN — to predict whether molecules satisfy Lipinski's Rule of Five.
+This project builds a machine learning pipeline that processes a BindingDB COVID‑19 dataset of molecules and targets, computes molecular descriptors, performs unsupervised clustering (K‑Means, DBSCAN, hierarchical, GMM), and then trains Graph Neural Networks (GNNs), including GCN, GAT, and GIN, to predict whether molecules satisfy Lipinski's Rule of Five.
 
 Primary goals:
 
@@ -13,14 +13,14 @@ Primary goals:
 ## File structure
 ```
 .
-├── README.md               # (you’re reading this)
-├── BindingDB_Covid‑19.tsv  # Input raw data file
-├── lipinski_balanced_smote.csv   # Balanced descriptor dataset
-├── EDA_Clustering.ipynb              # SMILES cleaning & descriptor computation
-├── DBSCAN.ipynb           # Clustering experiments (K‑Means, GMM, DBSCAN, hierarchical)
-├── Hierarchical_Clustering.ipynb     # SMOTE balancing routine
-├── Kmeans_GMM_clustering.py          # RDKit → PyG `Data` conversion
-├── GNN.ipynb              # graph preprocessing+ GNN model definitions (GCN, GAT, GIN) + training loops + evaluation
+├── README.md                       # (you’re reading this)
+├── BindingDB_Covid‑19.tsv          # Input raw data file
+├── lipinski_balanced_smote.csv     # Balanced descriptor dataset
+├── EDA_Clustering.ipynb            # SMILES cleaning & descriptor computation
+├── DBSCAN.ipynb                    # Clustering experiments (K‑Means, GMM, DBSCAN, hierarchical)
+├── Hierarchical_Clustering.ipynb   # SMOTE balancing routine
+├── Kmeans_GMM_clustering.py        # RDKit → PyG `Data` conversion
+├── GNN.ipynb                       # graph preprocessing+ GNN model definitions (GCN, GAT, GIN) + training loops + evaluation
 ```
 
 ## Features & Pipeline
@@ -42,11 +42,11 @@ Primary goals:
 
 3. Clustering (Unsupervised Analysis):
 
-- K‑Means and Gaussian Mixture Models (GMM) via silhouette, Calinski‑Harabasz, Davies‑Bouldin metrics → best k=2 in both
+- K‑Means and Gaussian Mixture Models (GMM) via silhouette, Calinski‑Harabasz, Davies‑Bouldin metrics with best k=2 in both
 
-- DBSCAN parameter sweep → best silhouette ≈ 0.436 with eps≈0.37, min_samples=50, yielding ~40 clusters
+- DBSCAN parameter sweep gave the best silhouette of approx. 0.436 with eps≈0.37, min_samples=50, yielding ~40 clusters
 
-- Hierarchical (complete linkage), cut at 70% of max distance → clusters with interpretable size and Lipinski pass rates
+- Hierarchical (complete linkage), cut at 70% of max distance of clusters with interpretable size and Lipinski pass rates
 
 - Visualize with PCA and t‑SNE projections
 
