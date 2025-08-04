@@ -11,7 +11,7 @@ Primary goals:
 
 ### BindingDB COVID-19 Dataset
 - **Description**: COVID-19 related binding data from BindingDB
-- **Link**: [https://www.bindingdb.org/rwd/bind/Covid19](https://www.bindingdb.org/rwd/bind/Covid19)
+- **Link**: [https://www.bindingdb.org/rwd/bind/Covid19.jsp](https://www.bindingdb.org/rwd/bind/Covid19.jsp)
 
 ## File structure
 ```
