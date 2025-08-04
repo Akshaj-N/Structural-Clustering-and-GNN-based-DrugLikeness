@@ -20,6 +20,14 @@ Primary goals:
 ├── GNN.ipynb                       # graph preprocessing+ GNN model definitions (GCN, GAT, GIN) + training loops + evaluation
 ```
 
+## Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Akshaj-N/Structural-Clustering-and-GNN-based-DrugLikeness.git
+cd Structural-Clustering-and-GNN-based-DrugLikeness
+```
+
 ## Features & Pipeline
 ### 1. Data Preprocessing & Feature Engineering
 
