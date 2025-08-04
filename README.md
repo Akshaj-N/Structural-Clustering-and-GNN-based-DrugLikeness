@@ -3,12 +3,9 @@
 This project builds a machine learning pipeline that processes a BindingDB COVID‑19 dataset of molecules and targets, computes molecular descriptors, performs unsupervised clustering (K‑Means, DBSCAN, hierarchical, GMM) and then trains Graph Neural Networks (GNNs), including GCN, GAT and GIN to predict whether molecules satisfy Lipinski's Rule of Five.
 
 Primary goals:
-
-1. Explore molecular clusters in descriptor space.
-
-2. Evaluate which clustering method best separates drug‑like compounds.
-
-3. Build GNN classifiers to predict Lipinski drug‑likeness, comparing models for optimal performance.
+1. Explore molecular clusters in descriptor space.  
+2. Evaluate which clustering method best separates drug‑like compounds.  
+3. Build GNN classifiers to predict Lipinski drug‑likeness, comparing models for optimal performance.  
 
 ## File structure
 ```
